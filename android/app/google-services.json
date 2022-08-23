@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "490127368327",
+    "project_id": "faq-1-dfabfj",
+    "storage_bucket": "faq-1-dfabfj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490127368327:android:17d91c0ee2b2b8f04cd822",
+        "android_client_info": {
+          "package_name": "com.example.ctounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490127368327-eivtrb8tpft1bd5747l54ubc22see765.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtLzNwnuOjN-R4-ub7V_gq0mMQEyyQaqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490127368327-eivtrb8tpft1bd5747l54ubc22see765.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490127368327:android:60ca8032809d923a4cd822",
+        "android_client_info": {
+          "package_name": "com.example.shadat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490127368327-eivtrb8tpft1bd5747l54ubc22see765.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtLzNwnuOjN-R4-ub7V_gq0mMQEyyQaqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490127368327-eivtrb8tpft1bd5747l54ubc22see765.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
