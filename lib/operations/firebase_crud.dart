@@ -3,7 +3,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:intl/intl.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final CollectionReference _collection = _firestore.collection('counters');
 
 DateTime now = DateTime.now();
 String onlyDate = DateFormat.yMMMd().format(now);
@@ -11,9 +10,35 @@ String onlyDate = DateFormat.yMMMd().format(now);
 DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
 class FirebaseCrud {
-  Future<void> counterPlusPlus() async {
+  Future<void> shaktiCounter() async {
+    final CollectionReference _collection =
+        _firestore.collection('shakti_counter');
     AndroidDeviceInfo info = await deviceInfo.androidInfo;
-    print(info.device);
-    await _collection.add({onlyDate: info.device});
+    await _collection.add({
+      onlyDate: {
+        "device": info.device,
+        "brand": info.brand,
+        "manufacturer": info.manufacturer,
+        "model": info.model,
+        "id": info.id,
+        "version": info.version
+      }
+    });
+  }
+
+  Future<void> sokaleRannaKoreDeycounter() async {
+    final CollectionReference _collection =
+        _firestore.collection('ranna_counter');
+    AndroidDeviceInfo info = await deviceInfo.androidInfo;
+    await _collection.add({
+      onlyDate: {
+        "device": info.device,
+        "brand": info.brand,
+        "manufacturer": info.manufacturer,
+        "model": info.model,
+        "id": info.id,
+        "version": info.version
+      }
+    });
   }
 }
