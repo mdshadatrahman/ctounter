@@ -11,8 +11,6 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
 class FirebaseCrud {
   Future shaktiCounter() async {
-    print("Called0");
-
     final _collection =
         _firestore.collection('shakti_counter').doc(DateTime.now().toString());
     AndroidDeviceInfo info = await deviceInfo.androidInfo;
@@ -27,7 +25,6 @@ class FirebaseCrud {
       }
     };
     await _collection.set(data);
-    print("Called");
   }
 
   Future<void> sokaleRannaKoreDeycounter() async {

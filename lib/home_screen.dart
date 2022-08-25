@@ -18,8 +18,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final player = AudioPlayer();
 
+  Future getDataLength() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('shakti_counter').get();
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    setState(() {
+      initCount = allData.length;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    getDataLength();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -33,16 +43,49 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                counter_and_button(
-                  stream: FirebaseFirestore.instance
-                      .collection('shakti_counter')
-                      .snapshots(),
-                  onPress: () async {
-                    // await player.play(DeviceFileSource('audio/delicious.mp3'));
-                    firebaseCrud.shaktiCounter();
-                  },
-                  buttonText: "Shakti Counter",
-                ),
+                Column(
+                  children: [
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('shakti_counter')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text("${initCount}");
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Text("Please Wait");
+                        } else {
+                          return Text("0");
+                        }
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () async {
+                        firebaseCrud.shaktiCounter();
+                      },
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.red,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Shakti Counter",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: 
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
@@ -50,14 +93,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  Future<String> getDataLength() async {
+
+/**
+ * 
+ * Future getDataLength() async {
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('').get();
+        await FirebaseFirestore.instance.collection('shakti_counter').get();
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-    final dataLenght = allData.length;
-    print(allData);
-    return dataLenght.toString();
+    setState(() {
+      initCount = allData.length;
+    });
   }
 
   Column counter_and_button({
@@ -73,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
           stream: collectionStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text("${getDataLength()}");
+              return Text("${initCount}");
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Text("Please Wait");
             } else {
@@ -91,4 +138,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-}
+ */
