@@ -51,8 +51,23 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Counters(
                   date: date,
-                  initCount: initCount,
                   firebaseCrud: firebaseCrud,
+                  buttonColor: Colors.red,
+                  buttonTextColor: Colors.white,
+                  collectionName: 'shakti_counter',
+                  counter: initCount,
+                  counterButtonText: 'Shakti Counter',
+                  counterTextColor: Colors.black,
+                ),
+                Counters(
+                  date: date,
+                  firebaseCrud: firebaseCrud,
+                  buttonColor: Colors.green,
+                  buttonTextColor: Colors.white,
+                  collectionName: 'ruti_counter',
+                  counter: initCount,
+                  counterButtonText: 'Ruti Counter',
+                  counterTextColor: Colors.black,
                 ),
               ],
             ),
@@ -67,13 +82,23 @@ class Counters extends StatelessWidget {
   const Counters({
     Key? key,
     required this.date,
-    required this.initCount,
     required this.firebaseCrud,
+    required this.buttonColor,
+    required this.buttonTextColor,
+    required this.collectionName,
+    required this.counter,
+    required this.counterButtonText,
+    required this.counterTextColor,
   }) : super(key: key);
 
   final String date;
-  final int initCount;
   final FirebaseCrud firebaseCrud;
+  final String collectionName;
+  final int counter;
+  final String counterButtonText;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  final Color counterTextColor;
 
   @override
   Widget build(BuildContext context) {
@@ -83,15 +108,15 @@ class Counters extends StatelessWidget {
           stream: FirebaseFirestore.instance
               .collection('all_counters')
               .doc(date)
-              .collection('shakti_counter')
+              .collection(collectionName)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return AutoSizeText(
-                "${initCount}",
+                "${counter}",
                 maxLines: 1,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: counterTextColor,
                   fontSize: 50,
                   fontWeight: FontWeight.bold,
                 ),
@@ -101,7 +126,7 @@ class Counters extends StatelessWidget {
                 "Please Wait",
                 maxLines: 1,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: buttonTextColor,
                   fontSize: 50,
                   fontWeight: FontWeight.bold,
                 ),
@@ -111,7 +136,7 @@ class Counters extends StatelessWidget {
                 "Something Wrong",
                 maxLines: 1,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: buttonTextColor,
                   fontSize: 50,
                   fontWeight: FontWeight.bold,
                 ),
@@ -129,14 +154,14 @@ class Counters extends StatelessWidget {
             height: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              color: Colors.red,
+              color: buttonColor,
             ),
             child: Center(
               child: AutoSizeText(
-                "Shakti Counter",
+                counterButtonText,
                 maxLines: 1,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: buttonTextColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),

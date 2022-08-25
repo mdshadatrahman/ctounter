@@ -32,4 +32,28 @@ class FirebaseCrud {
     };
     await _collection.set(data);
   }
+
+    Future rutiCounter() async {
+    AndroidDeviceInfo info = await deviceInfo.androidInfo;
+
+    DateTime time = DateTime.now();
+    String date = formatDate(time, [dd, mm, yyyy]);
+
+    final _collection = _firestore
+        .collection('all_counters')
+        .doc(date)
+        .collection('ruti_counter')
+        .doc(DateTime.now().toString());
+    final data = {
+      date: {
+        "device": info.device,
+        "brand": info.brand,
+        "manufacturer": info.manufacturer,
+        "model": info.model,
+        "id": info.id,
+        "created_at": DateTime.now(),
+      }
+    };
+    await _collection.set(data);
+  }
 }
