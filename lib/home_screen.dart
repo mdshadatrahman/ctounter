@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctounter/operations/firebase_crud.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 counter_and_button(
+                  stream: FirebaseFirestore.instance
+                      .collection('shakti_counter')
+                      .snapshots(),
                   onPress: () async {
-                    await player.play(DeviceFileSource('audio/delicious.mp3'));
+                    // await player.play(DeviceFileSource('audio/delicious.mp3'));
+                    firebaseCrud.shaktiCounter();
                   },
                   buttonText: "Shakti Counter",
                 ),
@@ -46,26 +51,39 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<String> getDataLength() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('').get();
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    final dataLenght = allData.length;
+    print(allData);
+    return dataLenght.toString();
+  }
+
   Column counter_and_button({
     required VoidCallback onPress,
     required String buttonText,
+    required Stream stream,
   }) {
+    Stream collectionStream =
+        FirebaseFirestore.instance.collection('shakti_counter').snapshots();
     return Column(
       children: [
         StreamBuilder(
-            stream: null, //TODO: change stream
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text("");
-              } else {
-                return Text("0");
-              }
-            }),
+          stream: collectionStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text("${getDataLength()}");
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Please Wait");
+            } else {
+              return Text("0");
+            }
+          },
+        ),
         SizedBox(height: 10),
         ElevatedButton(
-          onPressed: () {
-            onPress;
-          },
+          onPressed: onPress,
           child: Text(
             buttonText,
           ),

@@ -10,20 +10,24 @@ String onlyDate = DateFormat.yMMMd().format(now);
 DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
 class FirebaseCrud {
-  Future<void> shaktiCounter() async {
-    final CollectionReference _collection =
-        _firestore.collection('shakti_counter');
+  Future shaktiCounter() async {
+    print("Called0");
+
+    final _collection =
+        _firestore.collection('shakti_counter').doc(DateTime.now().toString());
     AndroidDeviceInfo info = await deviceInfo.androidInfo;
-    await _collection.add({
+    final data = {
       onlyDate: {
         "device": info.device,
         "brand": info.brand,
         "manufacturer": info.manufacturer,
         "model": info.model,
         "id": info.id,
-        "version": info.version
+        "created_at": DateTime.now(),
       }
-    });
+    };
+    await _collection.set(data);
+    print("Called");
   }
 
   Future<void> sokaleRannaKoreDeycounter() async {
