@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctounter/operations/firebase_crud.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Text("${initCount}");
+                          return AutoSizeText(
+                            "${initCount}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
                         } else if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Text("Please Wait");
@@ -73,12 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.red,
                         ),
                         child: Center(
-                          child: Text(
+                          child: AutoSizeText(
                             "Shakti Counter",
+                            maxLines: 1,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
-                              fontWeight: 
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
