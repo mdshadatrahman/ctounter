@@ -1,5 +1,4 @@
 // ignore_for_file: unused_local_variable
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,8 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int ruti_counter = 0;
   int riseup_counter = 0;
   String date = formatDate(DateTime.now(), [dd, mm, yyyy]);
-  final player = AudioPlayer();
-
   Future getShaktiCounterData() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('all_counters')
@@ -57,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
       riseup_counter = counter.length;
     });
   }
+
+  //Audio functions
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   buttonTextColor: Colors.white,
                   collectionName: 'riseup_counter',
                   counter: riseup_counter,
-                  counterButtonText: 'Ruti Counter',
+                  counterButtonText: 'Riseup Counter',
                   counterTextColor: Colors.black,
                 ),
               ],
@@ -116,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class Counters extends StatelessWidget {
+class Counters extends StatefulWidget {
   const Counters({
     Key? key,
     required this.date,
@@ -139,6 +138,13 @@ class Counters extends StatelessWidget {
   final Color counterTextColor;
 
   @override
+  State<Counters> createState() => _CountersState();
+}
+
+class _CountersState extends State<Counters> {
+  final player = AudioCache();
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -153,16 +159,16 @@ class Counters extends StatelessWidget {
             StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('all_counters')
-                  .doc(date)
-                  .collection(collectionName)
+                  .doc(widget.date)
+                  .collection(widget.collectionName)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return AutoSizeText(
-                    "${counter}",
+                    "${widget.counter}",
                     maxLines: 1,
                     style: TextStyle(
-                      color: counterTextColor,
+                      color: widget.counterTextColor,
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
                     ),
@@ -173,7 +179,7 @@ class Counters extends StatelessWidget {
                     "Please Wait",
                     maxLines: 1,
                     style: TextStyle(
-                      color: buttonTextColor,
+                      color: widget.buttonTextColor,
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
                     ),
@@ -183,7 +189,7 @@ class Counters extends StatelessWidget {
                     "Something Wrong",
                     maxLines: 1,
                     style: TextStyle(
-                      color: buttonTextColor,
+                      color: widget.buttonTextColor,
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
                     ),
@@ -194,14 +200,15 @@ class Counters extends StatelessWidget {
             SizedBox(height: 10),
             GestureDetector(
               onTap: () async {
-                firebaseCrud.shaktiCounter(collectionName);
+                widget.firebaseCrud.shaktiCounter(widget.collectionName);
+                await player.play("ting.mp3");
               },
               child: Container(
                 width: 150,
                 height: 150,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
-                  color: buttonColor,
+                  color: widget.buttonColor,
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 5,
@@ -213,10 +220,10 @@ class Counters extends StatelessWidget {
                 ),
                 child: Center(
                   child: AutoSizeText(
-                    counterButtonText,
+                    widget.counterButtonText,
                     maxLines: 1,
                     style: TextStyle(
-                      color: buttonTextColor,
+                      color: widget.buttonTextColor,
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
