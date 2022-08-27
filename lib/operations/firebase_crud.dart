@@ -9,7 +9,7 @@ DateTime now = DateTime.now();
 DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
 class FirebaseCrud {
-  Future shaktiCounter() async {
+  Future shaktiCounter(String counterCollection) async {
     AndroidDeviceInfo info = await deviceInfo.androidInfo;
 
     DateTime time = DateTime.now();
@@ -18,7 +18,7 @@ class FirebaseCrud {
     final _collection = _firestore
         .collection('all_counters')
         .doc(date)
-        .collection('shakti_counter')
+        .collection(counterCollection)
         .doc(DateTime.now().toString());
     final data = {
       date: {
@@ -33,27 +33,27 @@ class FirebaseCrud {
     await _collection.set(data);
   }
 
-    Future rutiCounter() async {
-    AndroidDeviceInfo info = await deviceInfo.androidInfo;
+  //   Future rutiCounter() async {
+  //   AndroidDeviceInfo info = await deviceInfo.androidInfo;
 
-    DateTime time = DateTime.now();
-    String date = formatDate(time, [dd, mm, yyyy]);
+  //   DateTime time = DateTime.now();
+  //   String date = formatDate(time, [dd, mm, yyyy]);
 
-    final _collection = _firestore
-        .collection('all_counters')
-        .doc(date)
-        .collection('ruti_counter')
-        .doc(DateTime.now().toString());
-    final data = {
-      date: {
-        "device": info.device,
-        "brand": info.brand,
-        "manufacturer": info.manufacturer,
-        "model": info.model,
-        "id": info.id,
-        "created_at": DateTime.now(),
-      }
-    };
-    await _collection.set(data);
-  }
+  //   final _collection = _firestore
+  //       .collection('all_counters')
+  //       .doc(date)
+  //       .collection('ruti_counter')
+  //       .doc(DateTime.now().toString());
+  //   final data = {
+  //     date: {
+  //       "device": info.device,
+  //       "brand": info.brand,
+  //       "manufacturer": info.manufacturer,
+  //       "model": info.model,
+  //       "id": info.id,
+  //       "created_at": DateTime.now(),
+  //     }
+  //   };
+  //   await _collection.set(data);
+  // }
 }
