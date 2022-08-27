@@ -1,4 +1,3 @@
-// ignore_for_file: unused_local_variable
 import 'package:audioplayers/audioplayers.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,7 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  //Audio functions
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
